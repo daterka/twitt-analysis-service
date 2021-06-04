@@ -24,6 +24,14 @@ from rest_framework.parsers import JSONParser
 from twittAnalysisService.models import Snippet
 from twittAnalysisService.serializers import SnippetSerializer
 
+class SnippetViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows snippets to be viewed or edited.
+    """
+    queryset = Snippet.objects.all().order_by('-created')
+    serializer_class = SnippetSerializer
+    # permission_classes = [permissions.IsAuthenticated]
+
 csrf_exempt
 def snippet_list(request):
     """
