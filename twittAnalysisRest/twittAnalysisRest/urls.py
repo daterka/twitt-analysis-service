@@ -28,6 +28,9 @@ router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 # router.register(r'groups', views.GroupViewSet)
 router.register(r'snippets', views.SnippetViewSet)
+router.register(r'twitts', views.TwittViewSet)
+router.register(r'authors', views.AuthorViewSet)
+router.register(r'publicmetrics', views.PublicMetricsViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

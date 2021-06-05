@@ -76,10 +76,39 @@ def snippet_detail(request, pk):
         snippet.delete()
         return HttpResponse(status=204)
 
-# class TwittViewSet(viewsets.ModelViewSet):
-#     """
-#     API endpoint that allows groups to be viewed or edited.
-#     """
-#     queryset = Twitt.objects.all()
-#     serializer_class = TwittSerializer
-#     # permission_classes = [permissions.IsAuthenticated]
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.parsers import JSONParser
+from twittAnalysisService.models import Twitt
+from twittAnalysisService.serializers import TwittSerializer
+
+class TwittViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Twitts to be viewed or edited.
+    """
+    queryset = Twitt.objects.all().order_by('-created_at')
+    serializer_class = TwittSerializer
+    # permission_classes = [permissions.IsAuthenticated]
+
+from twittAnalysisService.models import Author
+from twittAnalysisService.serializers import AuthorSerializer
+
+class AuthorViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Author to be viewed or edited.
+    """
+    queryset = Author.objects.all().order_by('-created_at')
+    serializer_class = AuthorSerializer
+    # permission_classes = [permissions.IsAuthenticated]
+
+
+from twittAnalysisService.models import PublicMetrics
+from twittAnalysisService.serializers import PublicMetricsSerializer
+
+class PublicMetricsViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows PublicMetricss to be viewed or edited.
+    """
+    queryset = PublicMetrics.objects.all().order_by('-id')
+    serializer_class = PublicMetricsSerializer
+    # permission_classes = [permissions.IsAuthenticated]
