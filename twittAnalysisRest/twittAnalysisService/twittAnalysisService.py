@@ -40,7 +40,8 @@ class TwittAnalysisService():
         return 100 * float(part)/float(whole)
 
     def analyze(self, dt):
-        self.data = pd.read_json (r'.\data.json')
+        # print(dt)
+        self.data = pd.read_json(dt)
         
         self.calcSentiments()
         self.twittListToDataframes() 
@@ -90,11 +91,11 @@ class TwittAnalysisService():
 
     def generateResponce(self):
         all = {'total': len(self.tweet_list), 'polarity': self.polarity}
-        positive = {'total': len(self.positive_list), 'polarity': self.negative}
-        negative = {'total': len(self.negative_list), 'polarity': self.neutral}
-        neutral = {'total': len(self.neutral_list), 'polarity': self.neutral}
+        positive = {'total': len(self.positive_list), 'positive': self.negative}
+        negative = {'total': len(self.negative_list), 'negative': self.neutral}
+        neutral = {'total': len(self.neutral_list), 'neutral': self.neutral}
         response = {'all': all, 'positive': positive, 'negative': negative, 'neutral': neutral}
         return response
 
-TAS = TwittAnalysisService()
-print(TAS.analyze(None))
+# TAS = TwittAnalysisService()
+# print(TAS.analyze(None))

@@ -134,6 +134,7 @@ def snippet_list2(request, format=None):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+from twittAnalysisService.twittAnalysisService import TwittAnalysisService as TAS
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def snippet_detail2(request, pk, format=None):
@@ -159,3 +160,27 @@ def snippet_detail2(request, pk, format=None):
     elif request.method == 'DELETE':
         snippet.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+import requests
+
+@api_view(['GET', 'POST'])
+def analyze(request, format=None):
+    """
+    List all code snippets, or create a new snippet.
+    """
+    if request.method == 'GET':
+        snippets = Snippet.objects.all()
+        serializer = SnippetSerializer(snippets, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        tags = request.data['tags']
+        keywords = request.data['keywords']
+        # print('request.data: \n', request.data)
+        if len(request.data) != 0:
+            response = requests.get(r'http://agile-stream-75074.herokuapp.com/api/tweets?hashtags=usa%2C%20covid%2C%20wuhan&max_results=100')
+            # print('response.data: \n', response.content)
+            tas = TAS()
+            response = tas.analyze(response.content)
+            return Response(response, status=status.HTTP_201_CREATED)
+        return Response(request.data, status=status.HTTP_400_BAD_REQUEST)
