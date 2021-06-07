@@ -67,5 +67,10 @@ class Twitt(models.Model):
     cashtags = []
     urls = []
 
+    sentiment: models.CharField(max_length=10, blank=True, default='')
+    compound: models.FloatField(default=0)
+    polarity: models.FloatField(default=0)
+    subjectivity: models.FloatField(default=0)
+
     class Meta:
         ordering = ['created_at']

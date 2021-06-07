@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User
-# from twittAnalysisService.models import Twitt, Author
 from rest_framework import serializers
 
 
@@ -7,14 +6,6 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ['url', 'username', 'email', 'groups']
-
-
-# class TwittSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = Twitt
-#         fields = ['id', 'language', 'conversation_id',  'source', 'created_at', 'author', 'text', 
-#         'possibly_sensitive', 'retweet_count', 'reply_count', 'like_count', 'quote_count', 'annotations', 
-#         'mentions', 'hashtags', 'cashtags', 'urls']
 
 from twittAnalysisService.models import Snippet, LANGUAGE_CHOICES, STYLE_CHOICES
 
@@ -105,9 +96,7 @@ class TwittSerializer(serializers.ModelSerializer):
 
 
     def create(self, validated_data):
-        print('\n\nval0: \n', validated_data, '\n\n')
         author_validated_data = validated_data.pop('author')
-        print('\n\nvalAuth: \n', author_validated_data, '\n\n')
         
         public_metrics_validated_data=author_validated_data.pop('public_metrics')
         public_metrics =  PublicMetrics.objects.get_or_create(

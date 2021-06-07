@@ -37,5 +37,5 @@ router.register(r'publicmetrics', views.PublicMetricsViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    # path('', include('twittAnalysisService.urls')),
+    path('', include('twittAnalysisService.urls')),
 ]
