@@ -163,15 +163,15 @@ def snippet_detail2(request, pk, format=None):
 
 import requests
 
+from twittAnalysisService.urlParser import UrlParser
+
 @api_view(['GET', 'POST'])
 def analyze(request, format=None):
     """
     List all code snippets, or create a new snippet.
     """
     if request.method == 'GET':
-        snippets = Snippet.objects.all()
-        serializer = SnippetSerializer(snippets, many=True)
-        return Response(serializer.data)
+        return Response('Twitt Analysis Service Running')
 
     elif request.method == 'POST':
         tags = request.data['tags']
