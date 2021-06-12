@@ -12,3 +12,15 @@ class UrlParser:
     @classmethod
     def add_str(self, url, value):
         return url+('%04d' % value)
+
+    @classmethod
+    def add_hashtags(self, url, hashtags):
+        i = 0
+        for hashtag in hashtags:
+            if 1 == 0:
+                url += '='
+            url += hashtag
+            if i != len(hashtags)-1:
+                url += r'%2C'
+
+        return url+('%04d' % value)
