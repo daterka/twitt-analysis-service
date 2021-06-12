@@ -25,11 +25,8 @@ def analyze(request, format=None):
         return Response('Twitt-Analysis-Service is working')
 
     elif request.method == 'POST':
-        # print('request.data: \n', request.data)
         if len(request.data) != 0:
-            # response = requests.get(r'http://agile-stream-75074.herokuapp.com/api/tweets?hashtags=usa%2C%20covid%2C%20wuhan&max_results=100')
-            response = requests.get(UrlParser.parse_request_data(TWITTS_URL, request.data))
-            # print('response.data: \n', response.content)
+            response = requests.get(UrlParser.parse_request_data(TWITTS_URL, request))
             tas = TwittAnalysisService()
             response = tas.analyze(response.content)
             return Response(response, status=status.HTTP_201_CREATED)

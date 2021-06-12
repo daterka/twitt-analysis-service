@@ -63,22 +63,26 @@ class UrlParser:
 
 
     @classmethod
-    def parse_request_data(cls, url, request_data):
-        hashtags = request_data['hashtags']
-        max_results = request_data['max_results']
-        start = request_data['start']
-        end = request_data['end']
+    def parse_request_data(cls, url, request):
+        hashtags = request.data.get('hashtags', None)
+        max_results = request.data.get('max_results', None)
+        start = request.data.get('start', None)
+        end = request.data.get('end', None)
 
         separator = '?'
-        if len(hashtags) is None or len(hashtags) <= 0:
+        if hashtags is None or len(hashtags) <= 0:
             raise Exception('At least one hashtag must be provided')
         else:
             url = cls.append_hashtags(url, separator, hashtags)
             separator = '&'
         
-        max_results = int(max_results)
-        if max_results is not None and max_results > 0:
-            url = cls.append_max_results(url, separator, max_results) 
+        if max_results is not None:
+            max_results = int(max_results)
+            if max_results > 0:
+                url = cls.append_max_results(url, separator, max_results) 
+                separator = '&'
+        else:
+            url = cls.append_max_results(url, separator, 100) 
             separator = '&'
 
         if start is not None and start != '':
@@ -87,7 +91,5 @@ class UrlParser:
 
         if end is not None and end != '':
             url = cls.append_max_results(url, separator, end)
-
-        # print('[LOG]: Parsed url', url)
 
         return url
