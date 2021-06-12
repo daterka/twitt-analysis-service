@@ -3,7 +3,7 @@ from twittAnalysisService import views
 from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
-    path('analyze/aggregate/', views.analyze)
+    path('analyze/', views.analyze)
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

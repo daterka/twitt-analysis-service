@@ -18,6 +18,8 @@ from nltk.stem import SnowballStemmer
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from sklearn.feature_extraction.text import CountVectorizer
 
+import json
+
 import nltk
 nltk.downloader.download('vader_lexicon')
 
@@ -51,6 +53,7 @@ class TwittAnalysisService():
         return self.generateResponce()
 
     def calcSentiments(self):
+        sentiments = []
         for index, tweet in self.data.iterrows(): 
             # print(tweet)
             text = tweet['text']
@@ -66,13 +69,18 @@ class TwittAnalysisService():
             if neg > pos:
                 self.negative_list.append(text)
                 self.negative += 1
+                sentiments.append(-1)
             elif pos > neg:
                 self.positive_list.append(text)
-                self.positive += 1 
+                self.positive += 1
+                sentiments.append(1) 
             elif pos == neg:
                 self.neutral_list.append(text)
                 self.neutral += 1
+                sentiments.append(0)
 
+        self.data['sentiment'] = sentiments
+            
     def twittListToDataframes(self):
         self.tweet_list = pd.DataFrame(self.tweet_list)
         self.neutral_list = pd.DataFrame(self.neutral_list)
@@ -90,12 +98,11 @@ class TwittAnalysisService():
         self.neutral = format(self.neutral, '.1f')
 
     def generateResponce(self):
-        all = {'total': len(self.tweet_list), 'polarity': self.polarity}
-        positive = {'total': len(self.positive_list), 'positive': self.negative}
-        negative = {'total': len(self.negative_list), 'negative': self.neutral}
-        neutral = {'total': len(self.neutral_list), 'neutral': self.neutral}
-        response = {'all': all, 'positive': positive, 'negative': negative, 'neutral': neutral}
+        response = {
+            'polarity': self.polarity,
+            'positive': len(self.positive_list), 
+            'neutral': len(self.neutral_list),
+            'negative': len(self.negative_list),
+            'twitts': json.loads(self.data.to_json(orient='records'))
+            }
         return response
-
-# TAS = TwittAnalysisService()
-# print(TAS.analyze(None))
