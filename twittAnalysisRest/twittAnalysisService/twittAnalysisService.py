@@ -19,7 +19,7 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from sklearn.feature_extraction.text import CountVectorizer
 
 import nltk
-# nltk.downloader.download('vader_lexicon')
+nltk.downloader.download('vader_lexicon')
 
 class TwittAnalysisService():
     def __init__(self) -> None:
