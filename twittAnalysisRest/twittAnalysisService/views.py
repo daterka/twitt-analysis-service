@@ -14,7 +14,8 @@ from twittAnalysisService.urlParser import UrlParser
 from twittAnalysisService.twittAnalysisService import TwittAnalysisService
 import requests
 
-TWITTS_URL = r'http://agile-stream-75074.herokuapp.com/api/tweets'
+# TWITTS_URL = r'http://agile-stream-75074.herokuapp.com/api/tweets'
+TWITTS_URL = r'http://localhost:3000/api/tweets'
 
 @api_view(['GET', 'POST'])
 def analyze(request, format=None):
